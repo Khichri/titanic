@@ -32,13 +32,14 @@ app.get("/api/open", (req, res) => {
 
 app.get("/api/ls", async (req, res) => {
   const stream = drive.list("/");
-  const chunks = [];
-  stream.on("data", function (chunk) {
-    chunks.push(chunk);
-  });
-  stream.on("end", function () {
-    res.send(chunks);
-  });
+  // const chunks = [];
+  // stream.on("data", function (chunk) {
+  //   chunks.push(chunk);
+  // });
+  // stream.on("end", function () {
+  //   res.send(chunks);
+  // });
+  stream.pipe(res)
 });
 
 app.post("/api/upload", async (req, res) => {
