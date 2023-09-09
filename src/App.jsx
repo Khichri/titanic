@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import FileManager from "./components/FileManager";
 
@@ -27,15 +27,16 @@ const fileData = [
 
 function App() {
   const [path, setPath] = useState(["shahank", "folder0", "you", "are", "gay"]);
+  const fileUploaderRef = useRef(null);
   const [selectedItem, setSelectedItem] = useState(0);
   const [copiedItem, setCopiedItem] = useState(0);
 
   return (
     <>
       <div className="flex-col">
-        <main className="font-serif w-[100%] m-auto rounded-3xl pt-0 p-5 h-[80vh] my-10 bg-[#3c3836]">
+        <main className="font-serif w-[100%] m-auto rounded-3xl pt-0 p-5 h-[90vh]  bg-[#3c3836]">
           <div className="flex flex-col gap-2 h-full">
-            <div className="ml-auto w-15 p-2 my-2 text-[#ebdbb2] hover:bg-[#665c54] rounded-2xl hover:cursor-pointer">
+            {/* <div className="ml-auto w-15 p-2 my-2 text-[#ebdbb2] hover:bg-[#665c54] rounded-2xl hover:cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
@@ -47,8 +48,8 @@ function App() {
                   d="M19.43 12.98c.04-.32.07-.64.07-.98c0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0 0 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.566.566 0 0 0-.18-.03c-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98c0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46a.5.5 0 0 0 .61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.06.02.12.03.18.03c.17 0 .34-.09.43-.25l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-1.98-1.71c.04.31.05.52.05.73c0 .21-.02.43-.05.73l-.14 1.13l.89.7l1.08.84l-.7 1.21l-1.27-.51l-1.04-.42l-.9.68c-.43.32-.84.56-1.25.73l-1.06.43l-.16 1.13l-.2 1.35h-1.4l-.19-1.35l-.16-1.13l-1.06-.43c-.43-.18-.83-.41-1.23-.71l-.91-.7l-1.06.43l-1.27.51l-.7-1.21l1.08-.84l.89-.7l-.14-1.13c-.03-.31-.05-.54-.05-.74s.02-.43.05-.73l.14-1.13l-.89-.7l-1.08-.84l.7-1.21l1.27.51l1.04.42l.9-.68c.43-.32.84-.56 1.25-.73l1.06-.43l.16-1.13l.2-1.35h1.39l.19 1.35l.16 1.13l1.06.43c.43.18.83.41 1.23.71l.91.7l1.06-.43l1.27-.51l.7 1.21l-1.07.85l-.89.7l.14 1.13zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4s4-1.79 4-4s-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2s2 .9 2 2s-.9 2-2 2z"
                 />
               </svg>
-            </div>
-            <div className="">
+            </div> */}
+            <div className="mt-5">
               <span className="font-['Comfortaa'] text-[3rem] text-[#ebdbb2] font-semibold">
                 Titanic
               </span>
@@ -105,14 +106,22 @@ function App() {
                   type="text"
                   placeholder="Search.."
                   name="search"
-                  autocomplete="off"
+                  autoComplete="off"
                   className="font-['Comfortaa'] focus:outline-none h-full px-2 rounded-tr-xl rounded-br-xl "
                 />
               </div>
             </div>
-            <div className="flex gap-3 h-[70%]">
+            <div className="flex gap-3 h-[80%]">
               <div className="flex text-[#ebdbb2]  flex-col w-80 box gap-3 pr-5 pt-4 overflow-y-scroll font-['Comfortaa'] font-semibold text-[1.1rem]">
-                <div className="flex items-center p-4 mb-7 hover:cursor-pointer bg-[#b16286]/70 hover:bg-[#d3869b] rounded-xl">
+                {/* <input
+                  type="file"
+                  class="form-control-file"
+                  name="uploaded_file"
+                />
+                <div
+                  type="submit"
+                  className="flex items-center p-4 mb-7 hover:cursor-pointer bg-[#b16286]/70 hover:bg-[#d3869b] rounded-xl"
+                >
                   <span className="mr-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +136,48 @@ function App() {
                     </svg>
                   </span>
                   Add File/Folder
-                </div>
+                </div> */}
+                <form
+                  action="/api/upload"
+                  encType="multipart/form-data"
+                  method="post"
+                >
+                  <div className="flex items-center justify-center w-full pb-5">
+                    <label
+                      htmlFor="dropzone-file"
+                      className="flex px-5 flex-col items-center justify-center w-full h-28 border-2 border-[#ebdbb2] border-dashed rounded-lg cursor-pointer bg-[#b16286]/40 hover:bg-[#d3869b]/70"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-8 pb-6">
+                        <svg
+                          className="w-8 h-8 mb-4 text-[#ebdbb2]"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 20 16"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                          />
+                        </svg>
+                        <p className="mb-2 px-2 text-sm text-[#ebdbb2]">
+                          <span className="font-semibold">Click to upload</span>{" "}
+                          or drag and drop
+                        </p>
+                      </div>
+                      <input
+                        name="uploaded-file"
+                        id="dropzone-file"
+                        type="file"
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                  <input type="submit" value="sumbit" />
+                </form>
                 <div
                   className={`${
                     !selectedItem ? "hidden" : "block"
