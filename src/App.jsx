@@ -105,6 +105,7 @@ function App() {
                   type="text"
                   placeholder="Search.."
                   name="search"
+                  autocomplete="off"
                   className="font-['Comfortaa'] focus:outline-none h-full px-2 rounded-tr-xl rounded-br-xl "
                 />
               </div>
