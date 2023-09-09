@@ -219,7 +219,7 @@ function App() {
                 </div>
               </div>
               <div className="flex w-full h-full mt-2 text-[#ebdbb2]">
-                <FileManager data={fileData} />
+                <FileManager data={fileData} path={path} setPath={setPath} />
               </div>
             </div>
           </div>

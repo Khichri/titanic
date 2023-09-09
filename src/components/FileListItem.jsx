@@ -2,9 +2,30 @@
 
 import React from "react";
 
-const FileListItem = ({ item, selectedItemId, setSelectedItemId }) => {
-  const handleClick = () => {
-    setSelectedItemId(item.id);
+const FileListItem = ({
+  item,
+  selectedItemId,
+  setSelectedItemId,
+  path,
+  setPath,
+}) => {
+  let timer;
+
+  const handleClick = (event) => {
+    clearTimeout(timer);
+
+    if (event.detail === 1) {
+      timer = setTimeout(() => {
+        setSelectedItemId(item.id);
+      }, 200);
+    } else if (event.detail === 2) {
+      setSelectedItemId(item.id);
+      if (item.type === "directory") {
+        console.log(path.join("/") + `/${item.name}`);
+      } else if (item.type === "file") {
+        console.log(`Opening file ${item.name}...`);
+      }
+    }
   };
 
   const itemClass =

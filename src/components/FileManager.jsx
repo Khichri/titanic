@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FileListItem from "./FileListItem";
 
-const FileManager = ({ data }) => {
+const FileManager = ({ data, path, setPath }) => {
   const directories = data.filter((item) => item.type === "directory");
   const files = data.filter((item) => item.type === "file");
 
@@ -21,6 +21,8 @@ const FileManager = ({ data }) => {
             item={item}
             selectedItemId={selectedItemId}
             setSelectedItemId={setSelectedItemId}
+            path={path}
+            setPath={setPath}
           />
         ))}
       </ul>
