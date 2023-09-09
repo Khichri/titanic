@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import FileManager from "./components/FileManager";
 
@@ -54,8 +55,10 @@ const fileData = [
   { name: "File 2.txt", type: "file" },
 ];
 
-
 function App() {
+  const [path, setPath] = useState(["shahank", "folder0", "you", "are", "gay"]);
+  console.log(path.slice(0, 2 + 1).join("/"));
+
   return (
     <>
       <div className="flex-col">
@@ -94,7 +97,22 @@ function App() {
                 </svg>
               </div>
               <div className="flex-grow px-3 bg-[#dfc4a1] shadow-lg rounded-xl flex items-center font-['Comfortaa'] text-[1.1rem]">
-                shahank/folder0
+                <span className="flex">
+                  {path.map((folder, idx) => (
+                    <>
+                      <button
+                        onClick={() => {
+                          console.log(path.slice(0, idx + 1).join("/"));
+                        }}
+                        className="p-1 px-2 hover:bg-[#fbf1c7] rounded-lg"
+                        key={idx}
+                      >
+                        {folder}
+                      </button>
+                      <span className="p-1">/</span>
+                    </>
+                  ))}
+                </span>
               </div>
               <div className="flex shadow-lg">
                 <button
