@@ -4,8 +4,8 @@ import React from "react";
 
 const FileListItem = ({
   item,
-  selectedItemId,
-  setSelectedItemId,
+  selectedItem,
+  setSelectedItem,
   path,
   setPath,
 }) => {
@@ -13,13 +13,13 @@ const FileListItem = ({
 
   const handleClick = (event) => {
     clearTimeout(timer);
-
+    
     if (event.detail === 1) {
+      setSelectedItem(item);
       timer = setTimeout(() => {
-        setSelectedItemId(item.id);
+        setSelectedItem(item);
       }, 200);
     } else if (event.detail === 2) {
-      setSelectedItemId(item.id);
       if (item.type === "directory") {
         console.log(path.join("/") + `/${item.name}`);
       } else if (item.type === "file") {
@@ -36,7 +36,7 @@ const FileListItem = ({
   return (
     <li
       className={`select-none mb-2 font-['Comfortaa'] font-semibold text-[1rem] flex flex-col items-center p-3 hover:bg-[#665c54] rounded-xl ${itemClass} ${
-        item.id === selectedItemId ? "bg-[#665c54]" : ""
+        item.id === selectedItem.id ? "bg-[#665c54]" : ""
       }`}
       onClick={handleClick}
     >

@@ -23,50 +23,12 @@ const fileData = [
   { id: 18, name: "File 2.txt", type: "file" },
   { id: 19, name: "Folder 2", type: "directory" },
   { id: 20, name: "File 2.txt", type: "file" },
-  { id: 21, name: "Folder 2", type: "directory" },
-  { id: 22, name: "File 2.txt", type: "file" },
-  { id: 23, name: "Folder 2", type: "directory" },
-  { id: 24, name: "File 2.txt", type: "file" },
-  { id: 25, name: "Folder 2", type: "directory" },
-  { id: 26, name: "File 2.txt", type: "file" },
-  { id: 27, name: "Folder 2", type: "directory" },
-  { id: 28, name: "File 2.txt", type: "file" },
-  { id: 29, name: "Folder 2", type: "directory" },
-  { id: 30, name: "File 2.txt", type: "file" },
-  { id: 31, name: "File 2.txt", type: "file" },
-  { id: 32, name: "Folder 2", type: "directory" },
-  { id: 33, name: "File 2.txt", type: "file" },
-  { id: 34, name: "Folder 2", type: "directory" },
-  { id: 35, name: "File 2.txt", type: "file" },
-  { id: 36, name: "Folder 2", type: "directory" },
-  { id: 37, name: "File 2.txt", type: "file" },
-  { id: 38, name: "Folder 2", type: "directory" },
-  { id: 39, name: "File 2.txt", type: "file" },
-  { id: 40, name: "Folder 2", type: "directory" },
-  { id: 41, name: "File 2.txt", type: "file" },
-  { id: 42, name: "Folder 2", type: "directory" },
-  { id: 43, name: "File 2.txt", type: "file" },
-  { id: 44, name: "Folder 2", type: "directory" },
-  { id: 45, name: "File 2.txt", type: "file" },
-  { id: 46, name: "Folder 2", type: "directory" },
-  { id: 47, name: "File 2.txt", type: "file" },
-  { id: 48, name: "Folder 2", type: "directory" },
-  { id: 49, name: "File 2.txt", type: "file" },
-  { id: 50, name: "File 2.txt", type: "file" },
-  { id: 51, name: "Folder 2", type: "directory" },
-  { id: 52, name: "File 2.txt", type: "file" },
-  { id: 53, name: "Folder 2", type: "directory" },
-  { id: 54, name: "File 2.txt", type: "file" },
-  { id: 55, name: "Folder 2", type: "directory" },
-  { id: 56, name: "File 2.txt", type: "file" },
-  { id: 57, name: "Folder 2", type: "directory" },
-  { id: 58, name: "File 2.txt", type: "file" },
-  { id: 59, name: "Folder 2", type: "directory" },
-  { id: 60, name: "File 2.txt", type: "file" },
 ];
 
 function App() {
   const [path, setPath] = useState(["shahank", "folder0", "you", "are", "gay"]);
+  const [selectedItem, setSelectedItem] = useState(0);
+  const [copiedItem, setCopiedItem] = useState(0);
 
   return (
     <>
@@ -88,7 +50,7 @@ function App() {
             </div>
             <div className="">
               <span className="font-['Comfortaa'] text-[3rem] text-[#ebdbb2] font-semibold">
-                Welcome, shahank
+                Titanic
               </span>
             </div>
             <div className="flex gap-2">
@@ -105,7 +67,7 @@ function App() {
                   />
                 </svg>
               </div>
-              <div className="flex-grow px-3 bg-[#dfc4a1] shadow-lg rounded-xl flex items-center font-['Comfortaa'] text-[1.1rem]">
+              <div className="flex-grow px-3 bg-[#dfc4a1] shadow-xl rounded-xl flex items-center font-['Comfortaa'] text-[1.1rem]">
                 <span className="flex">
                   {path.map((folder, idx) => (
                     <div key={idx}>
@@ -148,8 +110,8 @@ function App() {
               </div>
             </div>
             <div className="flex gap-3 h-[70%]">
-              <div className="flex text-[#ebdbb2] flex-col w-80 box gap-3 pr-5 pt-4 border-r border-[#bdae93] font-['Comfortaa'] font-semibold text-[1.1rem]">
-                <div className="flex items-center p-3 hover:cursor-pointer hover:bg-[#665c54] rounded-xl">
+              <div className="flex text-[#ebdbb2]  flex-col w-80 box gap-3 pr-5 pt-4 overflow-y-scroll font-['Comfortaa'] font-semibold text-[1.1rem]">
+                <div className="flex items-center p-4 mb-7 hover:cursor-pointer bg-[#b16286]/70 hover:bg-[#d3869b] rounded-xl">
                   <span className="mr-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -163,9 +125,13 @@ function App() {
                       />
                     </svg>
                   </span>
-                  Add file
+                  Add File/Folder
                 </div>
-                <div className="flex items-center p-3 hover:cursor-pointer hover:bg-[#665c54] rounded-xl">
+                <div
+                  className={`${
+                    !selectedItem ? "hidden" : "block"
+                  } flex items-center p-3 hover:cursor-pointer hover:bg-[#665c54] rounded-xl`}
+                >
                   <span className="mr-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -183,9 +149,21 @@ function App() {
                       </g>
                     </svg>
                   </span>
-                  Delete file
+                  Delete{" "}
+                  {selectedItem.type === "directory"
+                    ? "Folder"
+                    : selectedItem.type === "file"
+                    ? "File"
+                    : ""}
                 </div>
-                <div className="flex items-center p-3 hover:cursor-pointer hover:bg-[#665c54] rounded-xl">
+                <div
+                  className={`${
+                    !selectedItem ? "hidden" : "block"
+                  } flex items-center p-3 hover:cursor-pointer hover:bg-[#665c54] rounded-xl`}
+                  onClick={() => {
+                    setCopiedItem(selectedItem);
+                  }}
+                >
                   <span className="mr-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -199,9 +177,22 @@ function App() {
                       />
                     </svg>
                   </span>
-                  Copy file
+                  Copy{" "}
+                  {selectedItem.type === "directory"
+                    ? "Folder"
+                    : selectedItem.type === "file"
+                    ? "File"
+                    : ""}
                 </div>
-                <div className="flex items-center p-3 hover:cursor-pointer hover:bg-[#665c54] rounded-xl">
+                <div
+                  className={`${
+                    !copiedItem ? "hidden" : "block"
+                  } mt-auto flex items-center p-3 hover:cursor-pointer hover:bg-[#665c54] rounded-xl`}
+                  onClick={() => {
+                    setCopiedItem(0);
+                    // handle copying
+                  }}
+                >
                   <span className="mr-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -215,11 +206,22 @@ function App() {
                       />
                     </svg>
                   </span>
-                  Paste file
+                  Paste{" "}
+                  {copiedItem.type === "directory"
+                    ? "Folder"
+                    : copiedItem.type === "file"
+                    ? "File"
+                    : ""}
                 </div>
               </div>
               <div className="flex w-full h-full mt-2 text-[#ebdbb2]">
-                <FileManager data={fileData} path={path} setPath={setPath} />
+                <FileManager
+                  data={fileData}
+                  path={path}
+                  setPath={setPath}
+                  selectedItem={selectedItem}
+                  setSelectedItem={setSelectedItem}
+                />
               </div>
             </div>
           </div>
