@@ -26,7 +26,13 @@ const fileData = [
 ];
 
 function App() {
-  const [path, setPath] = useState(["shahank", "folder0", "you", "are", "gay"]);
+  const [path, setPath] = useState(["/", "fi", "ji", "mi"]);
+
+  const pwd = () => {
+    if (path.length === 1) return "/";
+    return "/" + path.slice(1, path.length).join("/");
+  };
+
   const fileUploaderRef = useRef(null);
   const [selectedItem, setSelectedItem] = useState(0);
   const [copiedItem, setCopiedItem] = useState(0);
@@ -70,7 +76,8 @@ function App() {
               </div>
               <div className="flex-grow px-3 bg-[#dfc4a1] shadow-xl rounded-xl flex items-center font-['Comfortaa'] text-[1.1rem]">
                 <span className="flex">
-                  {path.map((folder, idx) => (
+                  <span className="p-1">/</span>
+                  {path.slice(1, path.length).map((folder, idx) => (
                     <div key={idx}>
                       <button
                         onClick={() => {
@@ -138,7 +145,7 @@ function App() {
                   Add File/Folder
                 </div> */}
                 <form
-                  action="/api/upload"
+                  action={`/api/upload/?path=${pwd()}`}
                   encType="multipart/form-data"
                   method="post"
                 >
@@ -169,7 +176,7 @@ function App() {
                         </p>
                       </div>
                       <input
-                        name="uploaded-file"
+                        name="uploadedFile"
                         id="dropzone-file"
                         type="file"
                         className="hidden"
