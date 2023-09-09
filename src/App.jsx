@@ -3,61 +3,70 @@ import "./App.css";
 import FileManager from "./components/FileManager";
 
 const fileData = [
-  { name: "Folder 1", type: "directory" },
-  { name: "File 1.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
-  { name: "Folder 2", type: "directory" },
-  { name: "File 2.txt", type: "file" },
+  { id: 1, name: "Folder 1", type: "directory" },
+  { id: 2, name: "File 1.txt", type: "file" },
+  { id: 3, name: "Folder 2", type: "directory" },
+  { id: 4, name: "File 2.txt", type: "file" },
+  { id: 5, name: "Folder 2", type: "directory" },
+  { id: 6, name: "File 2.txt", type: "file" },
+  { id: 7, name: "Folder 2", type: "directory" },
+  { id: 8, name: "File 2.txt", type: "file" },
+  { id: 9, name: "Folder 2", type: "directory" },
+  { id: 10, name: "File 2.txt", type: "file" },
+  { id: 11, name: "Folder 2", type: "directory" },
+  { id: 12, name: "File 2.txt", type: "file" },
+  { id: 13, name: "Folder 2", type: "directory" },
+  { id: 14, name: "File 2.txt", type: "file" },
+  { id: 15, name: "Folder 2", type: "directory" },
+  { id: 16, name: "File 2.txt", type: "file" },
+  { id: 17, name: "Folder 2", type: "directory" },
+  { id: 18, name: "File 2.txt", type: "file" },
+  { id: 19, name: "Folder 2", type: "directory" },
+  { id: 20, name: "File 2.txt", type: "file" },
+  { id: 21, name: "Folder 2", type: "directory" },
+  { id: 22, name: "File 2.txt", type: "file" },
+  { id: 23, name: "Folder 2", type: "directory" },
+  { id: 24, name: "File 2.txt", type: "file" },
+  { id: 25, name: "Folder 2", type: "directory" },
+  { id: 26, name: "File 2.txt", type: "file" },
+  { id: 27, name: "Folder 2", type: "directory" },
+  { id: 28, name: "File 2.txt", type: "file" },
+  { id: 29, name: "Folder 2", type: "directory" },
+  { id: 30, name: "File 2.txt", type: "file" },
+  { id: 31, name: "File 2.txt", type: "file" },
+  { id: 32, name: "Folder 2", type: "directory" },
+  { id: 33, name: "File 2.txt", type: "file" },
+  { id: 34, name: "Folder 2", type: "directory" },
+  { id: 35, name: "File 2.txt", type: "file" },
+  { id: 36, name: "Folder 2", type: "directory" },
+  { id: 37, name: "File 2.txt", type: "file" },
+  { id: 38, name: "Folder 2", type: "directory" },
+  { id: 39, name: "File 2.txt", type: "file" },
+  { id: 40, name: "Folder 2", type: "directory" },
+  { id: 41, name: "File 2.txt", type: "file" },
+  { id: 42, name: "Folder 2", type: "directory" },
+  { id: 43, name: "File 2.txt", type: "file" },
+  { id: 44, name: "Folder 2", type: "directory" },
+  { id: 45, name: "File 2.txt", type: "file" },
+  { id: 46, name: "Folder 2", type: "directory" },
+  { id: 47, name: "File 2.txt", type: "file" },
+  { id: 48, name: "Folder 2", type: "directory" },
+  { id: 49, name: "File 2.txt", type: "file" },
+  { id: 50, name: "File 2.txt", type: "file" },
+  { id: 51, name: "Folder 2", type: "directory" },
+  { id: 52, name: "File 2.txt", type: "file" },
+  { id: 53, name: "Folder 2", type: "directory" },
+  { id: 54, name: "File 2.txt", type: "file" },
+  { id: 55, name: "Folder 2", type: "directory" },
+  { id: 56, name: "File 2.txt", type: "file" },
+  { id: 57, name: "Folder 2", type: "directory" },
+  { id: 58, name: "File 2.txt", type: "file" },
+  { id: 59, name: "Folder 2", type: "directory" },
+  { id: 60, name: "File 2.txt", type: "file" },
 ];
 
 function App() {
   const [path, setPath] = useState(["shahank", "folder0", "you", "are", "gay"]);
-  console.log(path.slice(0, 2 + 1).join("/"));
 
   return (
     <>
@@ -99,18 +108,17 @@ function App() {
               <div className="flex-grow px-3 bg-[#dfc4a1] shadow-lg rounded-xl flex items-center font-['Comfortaa'] text-[1.1rem]">
                 <span className="flex">
                   {path.map((folder, idx) => (
-                    <>
+                    <div key={idx}>
                       <button
                         onClick={() => {
                           console.log(path.slice(0, idx + 1).join("/"));
                         }}
                         className="p-1 px-2 hover:bg-[#fbf1c7] rounded-lg"
-                        key={idx}
                       >
                         {folder}
                       </button>
                       <span className="p-1">/</span>
-                    </>
+                    </div>
                   ))}
                 </span>
               </div>

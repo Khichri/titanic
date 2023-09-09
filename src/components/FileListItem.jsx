@@ -2,13 +2,9 @@
 
 import React from "react";
 
-const FileListItem = ({ item }) => {
+const FileListItem = ({ item, selectedItemId, setSelectedItemId }) => {
   const handleClick = () => {
-    if (item.type === "directory") {
-      alert(`Open directory: ${item.name}`);
-    } else {
-      alert(`Open file: ${item.name}`);
-    }
+    setSelectedItemId(item.id);
   };
 
   const itemClass =
@@ -17,7 +13,12 @@ const FileListItem = ({ item }) => {
       : "cursor-pointer text-[#689d6a]";
 
   return (
-    <li className={`mb-2 font-['Comfortaa'] font-semibold text-[1rem] flex flex-col items-center p-3 hover:bg-[#665c54] rounded-xl ${itemClass}`} onClick={handleClick}>
+    <li
+      className={`select-none mb-2 font-['Comfortaa'] font-semibold text-[1rem] flex flex-col items-center p-3 hover:bg-[#665c54] rounded-xl ${itemClass} ${
+        item.id === selectedItemId ? "bg-[#665c54]" : ""
+      }`}
+      onClick={handleClick}
+    >
       {item.type === "directory" ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
