@@ -207,12 +207,7 @@ function App() {
                       />
                     </svg>
                   </span>
-                  Paste{" "}
-                  {copiedItem.type === "directory"
-                    ? "Folder"
-                    : copiedItem.type === "file"
-                    ? "File"
-                    : ""}
+                  Paste "{copiedItem.name}"
                 </div>
               </div>
               <div className="flex w-full h-full mt-2 text-[#ebdbb2]">
