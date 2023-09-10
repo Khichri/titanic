@@ -120,21 +120,24 @@ function App() {
                   {hyperdriveInfo.id}
                 </span>
               </div> */}
-              <input
-                type="text"
-                name="search"
-                autoComplete="off"
-                value={hyperdriveKey}
-                onChange={(e) => setHyperdriveKey(e.target.value)}
-                onKeyDown={async (e) => {
-                  if (e.key === "Enter") {
-                    localStorage.setItem("newKey", hyperdriveKey);
-                    const res = await fetch(`/api/open/?key=${hyperdriveKey}`);
-                    window.location.reload();
-                  }
-                }}
-                className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full w-full px-2 rounded-xl"
-              />
+              <form action={`/api/open/?key=${hyperdriveKey}`} className="w-full flex" method="get">
+                <input
+                  type="text"
+                  name="key"
+                  autoComplete="off"
+                  value={hyperdriveKey}
+                  onChange={(e) => setHyperdriveKey(e.target.value)}
+                  onKeyDown={async (e) => {
+                    if (e.key === "Enter") {
+                      localStorage.setItem("newKey", hyperdriveKey);
+                      // const res = await fetch();
+                      // window.location.reload();
+                    }
+                  }}
+                  className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full w-full px-2 rounded-xl"
+                />
+                <button type="submit">Look</button>
+              </form>
               {/* <div className="flex flex-1 shadow-lg h-12">
                 <button
                   type="submit"
