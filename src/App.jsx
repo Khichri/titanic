@@ -26,6 +26,7 @@ const useFiles = () => {
 
 function App() {
   const [path, setPath] = useState(["/"]);
+  const [hideFiles, setHideFiles] = useState(false);
 
   const pwd = () => {
     if (path.length === 1) return "/";
@@ -40,10 +41,12 @@ function App() {
       const info = await res.json();
       // if (localStorage.getItem("currKey") !== info.key)
       //   setHyperdriveKey(localStorage.getItem("currKey"));
-      // else 
+      // else
       setHyperdriveKey(info.key);
+      // if (inf)
     })();
   }, []);
+
 
   const fileUploaderRef = useRef(null);
   const [selectedItem, setSelectedItem] = useState(0);
@@ -120,15 +123,23 @@ function App() {
                   {hyperdriveInfo.id}
                 </span>
               </div> */}
-              <form action={`/api/open/?key=${hyperdriveKey}`} className="w-full flex" method="get">
+              <form
+                action={`/api/open/?key=${hyperdriveKey}`}
+                className="w-full flex"
+                method="get"
+              >
                 <input
                   type="text"
                   name="key"
                   autoComplete="off"
                   value={hyperdriveKey}
+                  onClick={() => {
+                    setHideFiles(true);
+                  }}
                   onChange={(e) => setHyperdriveKey(e.target.value)}
                   onKeyDown={async (e) => {
                     if (e.key === "Enter") {
+                      // setHideFiles(true);
                       localStorage.setItem("newKey", hyperdriveKey);
                       // const res = await fetch();
                       // window.location.reload();
@@ -136,7 +147,7 @@ function App() {
                   }}
                   className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full w-full px-2 rounded-xl"
                 />
-                <button type="submit">Look</button>
+                <button className="flex items-center p-3 hover:cursor-pointer bg-[#d65d0e]/80 hover:bg-[#fe8019]/80 rounded-xl" type="submit">Look</button>
               </form>
               {/* <div className="flex flex-1 shadow-lg h-12">
                 <button
@@ -167,7 +178,11 @@ function App() {
               </div> */}
             </div>
             <div className="flex gap-3 h-[80%]">
-              <div className="flex text-[#ebdbb2]  flex-col w-80 box gap-3 pr-5 pt-4 overflow-y-scroll font-['Comfortaa'] font-semibold text-[1.1rem]">
+              <div
+                className={` ${
+                  hideFiles ? "hidden" : "block"
+                } flex text-[#ebdbb2]  flex-col w-80 box gap-3 pr-5 pt-4 overflow-y-scroll font-['Comfortaa'] font-semibold text-[1.1rem]`}
+              >
                 <form
                   action={`/api/upload/?path=${pwd()}&name=${selectedFileName}`}
                   encType="multipart/form-data"
