@@ -32,13 +32,13 @@ function App() {
     return "/" + path.slice(1, path.length).join("/");
   };
 
-  const [hyperdriveInfo, setHyperdriveInfo] = useState();
+  const [hyperdriveKey, setHyperdriveKey] = useState("");
 
   useEffect(() => {
     (async () => {
       const res = await fetch("http://localhost:3000/api/info");
       const info = await res.json();
-      setHyperdriveInfo(info);
+      setHyperdriveKey(info.key);
     })();
   }, []);
 
@@ -80,7 +80,9 @@ function App() {
     setFileDisplayData(
       cwdData.filter((item) => item.name.toLowerCase().includes(searchQuery))
     );
-    setCwdData(cwdData.filter((item) => item.name.toLowerCase().includes(searchQuery)))
+    setCwdData(
+      cwdData.filter((item) => item.name.toLowerCase().includes(searchQuery))
+    );
     console.log("after searching", fileDisplayData);
   }, [searchQuery]);
   // console.log(searchQuery);
@@ -95,7 +97,7 @@ function App() {
                 Titanic
               </span>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 h-12">
               {/* <div className="flex-1 px-3 bg-[#dfc4a1] shadow-xl rounded-xl flex items-center font-['Comfortaa']">
                 <span className="flex">
                   <span className="p-1">/</span>
@@ -120,11 +122,17 @@ function App() {
                 placeholder="Search.."
                 name="search"
                 autoComplete="off"
-                // value={hyperdriveInfo.key}
-                // onChange={setHyperdriveInfo}
-                className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full w-1/2 px-2 rounded-xl"
+                value={hyperdriveKey}
+                onChange={(e) => setHyperdriveKey(e.target.value)}
+                onKeyDown={async (e) => {
+                  if (e.key === "Enter") {
+                    const res = await fetch(`/api/open/?key=${hyperdriveKey}`);
+                    window.location.reload();
+                  }
+                }}
+                className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full w-full px-2 rounded-xl"
               />
-              <div className="flex flex-1 shadow-lg">
+              {/* <div className="flex flex-1 shadow-lg h-12">
                 <button
                   type="submit"
                   className="bg-[#fbf1c7] hover:bg-[#a89984] p-2 rounded-tl-xl rounded-bl-xl "
@@ -150,7 +158,7 @@ function App() {
                   autoComplete="off"
                   className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full px-2 rounded-tr-xl rounded-br-xl w-full"
                 />
-              </div>
+              </div> */}
             </div>
             <div className="flex gap-3 h-[80%]">
               <div className="flex text-[#ebdbb2]  flex-col w-80 box gap-3 pr-5 pt-4 overflow-y-scroll font-['Comfortaa'] font-semibold text-[1.1rem]">

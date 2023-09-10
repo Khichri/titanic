@@ -29,7 +29,9 @@ app.get("/api/open", (req, res) => {
   const { key } = req.query;
   const buff = Buffer.from(key, "base64");
   drive = new Hyperdrive(store, buff);
-  res.send("Ok");
+  // res.send("Ok");
+  res.redirect("/");
+
 });
 
 app.get("/api/ls", async (req, res) => {
