@@ -25,10 +25,15 @@ app.get("/api/info", (req, res) => {
   });
 });
 
-app.get("/api/open", (req, res) => {
+app.get("/api/open", async (req, res) => {
   const { key } = req.query;
   const buff = Buffer.from(key, "base64");
   drive = new Hyperdrive(store, buff);
+  await drive.ready();
+  done = drive.findingPeers();
+  swarm.on("connection", (socket) => drive.replicate(socket));
+  //   console.log(drive.discoveryKey);
+  swarm.join(drive.discoveryKey);
   // res.send("Ok");
   res.redirect("/");
 
