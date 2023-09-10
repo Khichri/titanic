@@ -3,6 +3,7 @@ const fileUpload = require("express-fileupload");
 const Hyperdrive = require("hyperdrive");
 const Corestore = require("corestore");
 const Hyperswarm = require("hyperswarm");
+const cors = require('cors');
 
 const store = new Corestore("./storage");
 let drive = new Hyperdrive(store);
@@ -11,6 +12,7 @@ const swarm = new Hyperswarm();
 let done = () => true;
 
 const app = express();
+app.use(cors());
 app.use(express.static("./dist"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,14 +34,14 @@ app.get("/api/open", (req, res) => {
 
 app.get("/api/ls", async (req, res) => {
   const stream = drive.list("/");
-  // const chunks = [];
-  // stream.on("data", function (chunk) {
-  //   chunks.push(chunk);
-  // });
-  // stream.on("end", function () {
-  //   res.send(chunks);
-  // });
-  stream.pipe(res)
+  const chunks = [];
+  stream.on("data", function (chunk) {
+    chunks.push(chunk);
+  });
+  stream.on("end", function () {
+    res.send(chunks);
+  });
+  // stream.pipe(res)
 });
 
 app.post("/api/upload", async (req, res) => {

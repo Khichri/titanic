@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import FileManager from "./components/FileManager";
 
@@ -25,8 +25,30 @@ const fileData = [
   { id: 20, name: "File 2.txt", type: "file" },
 ];
 
+const useFiles = () => {
+  const [filePathObjs, setFilePathObjs] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("http://localhost:3000/api/ls");
+      const ls = await res.json();
+      const _filePathObjs = [];
+      for (const item of ls)
+        _filePathObjs.push({
+          id: item.seq,
+          key: item.key,
+          size: item.value.blob.byteLength,
+        });
+
+      setFilePathObjs(_filePathObjs);
+    })();
+  }, []);
+
+  return filePathObjs;
+};
+
 function App() {
-  const [path, setPath] = useState(["/", "fi", "ji", "mi"]);
+  const [path, setPath] = useState(["/"]);
 
   const pwd = () => {
     if (path.length === 1) return "/";
@@ -36,6 +58,33 @@ function App() {
   const fileUploaderRef = useRef(null);
   const [selectedItem, setSelectedItem] = useState(0);
   const [copiedItem, setCopiedItem] = useState(0);
+  const [cwdData, setCwdData] = useState([]);
+
+  const filePathObjs = useFiles();
+  console.log(pwd());
+
+  useEffect(() => {
+    for (const filePathObj of filePathObjs) {
+      const cwdItemName = filePathObj.key.slice(pwd().length + 1);
+      if (cwdItemName.includes("/")) {
+        // it's a folder
+        if (!cwdData.find((file) => file.id === filePathObj.id))
+          setCwdData((prev) => [
+            ...prev,
+            { id: filePathObj.id, name: cwdItemName, type: "folder" },
+          ]);
+      } else {
+        // it's a file
+        if (!cwdData.find((file) => file.id === filePathObj.id))
+          setCwdData((prev) => [
+            ...prev,
+            { id: filePathObj.id, name: cwdItemName, type: "file" },
+          ]);
+      }
+    }
+  }, [filePathObjs]);
+
+  console.log(filePathObjs)
 
   return (
     <>
@@ -61,19 +110,6 @@ function App() {
               </span>
             </div>
             <div className="flex gap-2">
-              <div className="flex items-center w-10 justify-center rounded-xl bg-[#fbf1c7] hover:bg-[#a89984] hover:cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M11 20V7.825l-5.6 5.6L4 12l8-8l8 8l-1.4 1.425l-5.6-5.6V20h-2Z"
-                  />
-                </svg>
-              </div>
               <div className="flex-grow px-3 bg-[#dfc4a1] shadow-xl rounded-xl flex items-center font-['Comfortaa'] text-[1.1rem]">
                 <span className="flex">
                   <span className="p-1">/</span>
@@ -180,10 +216,14 @@ function App() {
                         id="dropzone-file"
                         type="file"
                         className="hidden"
+                        multiple
+                        directory
+                        webkitdirectory
+                        mozdirectory
                       />
                     </label>
                   </div>
-                  <input type="submit" value="sumbit" />
+                  <input type="submit" value="Upload File" className="bg-[#79740e] w-full p" />
                 </form>
                 <div
                   className={`${
@@ -269,7 +309,7 @@ function App() {
               </div>
               <div className="flex w-full h-full mt-2 text-[#ebdbb2]">
                 <FileManager
-                  data={fileData}
+                  data={cwdData}
                   path={path}
                   setPath={setPath}
                   selectedItem={selectedItem}

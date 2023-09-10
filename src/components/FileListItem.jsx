@@ -35,7 +35,7 @@ const FileListItem = ({
 
   return (
     <li
-      className={`select-none mb-2 font-['Comfortaa'] font-semibold text-[1rem] flex flex-col items-center p-3 hover:bg-[#665c54] rounded-xl ${itemClass} ${
+      className={`break-all select-none mb-2 font-['Comfortaa'] font-semibold text-[1rem] flex flex-col items-center p-3 hover:bg-[#665c54] rounded-xl ${itemClass} ${
         item.id === selectedItem.id ? "bg-[#665c54]" : ""
       }`}
       onClick={handleClick}
@@ -65,7 +65,7 @@ const FileListItem = ({
           />
         </svg>
       )}
-      {item.name}
+      {item.name.length >= 11 ? item.name.slice(0, 11 + 1) + "..." : item.name}
     </li>
   );
 };

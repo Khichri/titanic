@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FileListItem from "./FileListItem";
 
 const FileManager = ({ data, path, setPath, selectedItem, setSelectedItem }) => {
+  if (!data) return <>a</>
   const directories = data.filter((item) => item.type === "directory");
   const files = data.filter((item) => item.type === "file");
 
