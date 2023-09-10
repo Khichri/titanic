@@ -38,9 +38,10 @@ function App() {
     (async () => {
       const res = await fetch("http://localhost:3000/api/info");
       const info = await res.json();
-      if (localStorage.getItem("currKey") !== info.key)
-        setHyperdriveKey(localStorage.getItem("currKey"));
-      else setHyperdriveKey(info.key);
+      // if (localStorage.getItem("currKey") !== info.key)
+      //   setHyperdriveKey(localStorage.getItem("currKey"));
+      // else 
+      setHyperdriveKey(info.key);
     })();
   }, []);
 
