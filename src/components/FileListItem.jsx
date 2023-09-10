@@ -24,6 +24,7 @@ const FileListItem = ({
         console.log(path.join("/") + `/${item.name}`);
       } else if (item.type === "file") {
         console.log(`Opening file ${item.name}...`);
+        
       }
     }
   };

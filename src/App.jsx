@@ -38,7 +38,9 @@ function App() {
     (async () => {
       const res = await fetch("http://localhost:3000/api/info");
       const info = await res.json();
-      setHyperdriveKey(info.key);
+      if (localStorage.getItem("currKey") !== info.key)
+        setHyperdriveKey(localStorage.getItem("currKey"));
+      else setHyperdriveKey(info.key);
     })();
   }, []);
 
@@ -119,13 +121,13 @@ function App() {
               </div> */}
               <input
                 type="text"
-                placeholder="Search.."
                 name="search"
                 autoComplete="off"
                 value={hyperdriveKey}
                 onChange={(e) => setHyperdriveKey(e.target.value)}
                 onKeyDown={async (e) => {
                   if (e.key === "Enter") {
+                    localStorage.setItem("newKey", hyperdriveKey);
                     const res = await fetch(`/api/open/?key=${hyperdriveKey}`);
                     window.location.reload();
                   }
@@ -189,8 +191,7 @@ function App() {
                           />
                         </svg>
                         <p className="mb-2 px-2 text-sm text-[#ebdbb2]">
-                          <span className="font-semibold">Click to upload</span>{" "}
-                          or drag and drop
+                          <span className="font-semibold">Click to upload</span>
                         </p>
                       </div>
                       <input
