@@ -31,7 +31,7 @@ const FileListItem = ({
   const itemClass =
     item.type === "directory"
       ? "font-semibold font-['Comfortaa'] cursor-pointer text-[1rem] text-[#d79921]"
-      : "cursor-pointer text-[#689d6a]";
+      : "cursor-pointer text-[#fabd2f]";
 
   return (
     <li
@@ -65,7 +65,7 @@ const FileListItem = ({
           />
         </svg>
       )}
-      {item.name.length >= 11 ? item.name.slice(0, 11 + 1) + "..." : item.name}
+      {item.name}
     </li>
   );
 };

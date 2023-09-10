@@ -59,6 +59,8 @@ app.get("/api/del", async (req, res) => {
   await drive.clear(path);
   await drive.del(path);
   res.send("Ok");
+
+  // res.redirect("/");
 });
 
 app.get("/api/copy", async (req, res) => {
