@@ -45,9 +45,8 @@ app.get("/api/ls", async (req, res) => {
 });
 
 app.post("/api/upload", async (req, res) => {
-  const { path } = req.query;
+  const { path, name } = req.query;
   const buff = req.files.uploadedFile.data;
-  const name = req.files.uploadedFile.name;
 
   await drive.put(path + "/" + name, buff);
 

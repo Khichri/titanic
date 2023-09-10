@@ -2,29 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import FileManager from "./components/FileManager";
 
-const fileData = [
-  { id: 1, name: "Folder 1", type: "directory" },
-  { id: 2, name: "File 1.txt", type: "file" },
-  { id: 3, name: "Folder 2", type: "directory" },
-  { id: 4, name: "File 2.txt", type: "file" },
-  { id: 5, name: "Folder 2", type: "directory" },
-  { id: 6, name: "File 2.txt", type: "file" },
-  { id: 7, name: "Folder 2", type: "directory" },
-  { id: 8, name: "File 2.txt", type: "file" },
-  { id: 9, name: "Folder 2", type: "directory" },
-  { id: 10, name: "File 2.txt", type: "file" },
-  { id: 11, name: "Folder 2", type: "directory" },
-  { id: 12, name: "File 2.txt", type: "file" },
-  { id: 13, name: "Folder 2", type: "directory" },
-  { id: 14, name: "File 2.txt", type: "file" },
-  { id: 15, name: "Folder 2", type: "directory" },
-  { id: 16, name: "File 2.txt", type: "file" },
-  { id: 17, name: "Folder 2", type: "directory" },
-  { id: 18, name: "File 2.txt", type: "file" },
-  { id: 19, name: "Folder 2", type: "directory" },
-  { id: 20, name: "File 2.txt", type: "file" },
-];
-
 const useFiles = () => {
   const [filePathObjs, setFilePathObjs] = useState([]);
 
@@ -55,10 +32,25 @@ function App() {
     return "/" + path.slice(1, path.length).join("/");
   };
 
+  const [hyperdriveInfo, setHyperdriveInfo] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("http://localhost:3000/api/info");
+      const info = await res.json();
+      setHyperdriveInfo(info);
+    })();
+  }, []);
+
   const fileUploaderRef = useRef(null);
   const [selectedItem, setSelectedItem] = useState(0);
   const [copiedItem, setCopiedItem] = useState(0);
   const [cwdData, setCwdData] = useState([]);
+  const [fileDisplayData, setFileDisplayData] = useState(cwdData);
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   let filePathObjs = useFiles();
 
@@ -83,7 +75,15 @@ function App() {
     }
   }, [filePathObjs]);
 
-  console.log(cwdData);
+  useEffect(() => {
+    console.log(searchQuery);
+    setFileDisplayData(
+      cwdData.filter((item) => item.name.toLowerCase().includes(searchQuery))
+    );
+    setCwdData(cwdData.filter((item) => item.name.toLowerCase().includes(searchQuery)))
+    console.log("after searching", fileDisplayData);
+  }, [searchQuery]);
+  // console.log(searchQuery);
 
   return (
     <>
@@ -96,7 +96,7 @@ function App() {
               </span>
             </div>
             <div className="flex gap-2">
-              <div className="flex-1 px-3 bg-[#dfc4a1] shadow-xl rounded-xl flex items-center font-['Comfortaa'] text-[1.1rem]">
+              {/* <div className="flex-1 px-3 bg-[#dfc4a1] shadow-xl rounded-xl flex items-center font-['Comfortaa']">
                 <span className="flex">
                   <span className="p-1">/</span>
                   {path.slice(1, path.length).map((folder, idx) => (
@@ -112,8 +112,18 @@ function App() {
                       <span className="p-1">/</span>
                     </div>
                   ))}
+                  {hyperdriveInfo.id}
                 </span>
-              </div>
+              </div> */}
+              <input
+                type="text"
+                placeholder="Search.."
+                name="search"
+                autoComplete="off"
+                // value={hyperdriveInfo.key}
+                // onChange={setHyperdriveInfo}
+                className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full w-1/2 px-2 rounded-xl"
+              />
               <div className="flex flex-1 shadow-lg">
                 <button
                   type="submit"
@@ -135,15 +145,17 @@ function App() {
                   type="text"
                   placeholder="Search.."
                   name="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   autoComplete="off"
-                  className="font-['Comfortaa'] focus:outline-none h-full px-2 rounded-tr-xl rounded-br-xl w-full"
+                  className="text-[#1d2021] font-['Comfortaa'] focus:outline-none h-full px-2 rounded-tr-xl rounded-br-xl w-full"
                 />
               </div>
             </div>
             <div className="flex gap-3 h-[80%]">
               <div className="flex text-[#ebdbb2]  flex-col w-80 box gap-3 pr-5 pt-4 overflow-y-scroll font-['Comfortaa'] font-semibold text-[1.1rem]">
                 <form
-                  action={`/api/upload/?path=${pwd()}`}
+                  action={`/api/upload/?path=${pwd()}&name=${selectedFileName}`}
                   encType="multipart/form-data"
                   method="post"
                 >
@@ -178,17 +190,26 @@ function App() {
                         id="dropzone-file"
                         type="file"
                         className="hidden"
-                        multiple
-                        directory
-                        webkitdirectory
-                        mozdirectory
+                        onChange={(e) => {
+                          setSelectedFileName(e.target.files[0].name);
+                        }}
                       />
                     </label>
                   </div>
                   <input
+                    type="text"
+                    value={selectedFileName}
+                    onChange={(e) => setSelectedFileName(e.target.value)}
+                    className={`${
+                      selectedFileName === "" ? "hidden" : "block"
+                    } text-[#1d2021] font-['Comfortaa'] focus:outline-none py-2 px-2 mb-4 rounded-xl w-full`}
+                  />
+                  <input
                     type="submit"
                     value="Upload File"
-                    className="bg-[#458588] hover:bg-[#83a598] w-full py-3 rounded-xl hover:cursor-pointer"
+                    className={`${
+                      selectedFileName === "" ? "hidden" : "block"
+                    } bg-[#458588] hover:bg-[#83a59pdf8] w-full py-3 rounded-xl hover:cursor-pointer`}
                   />
                 </form>
 
@@ -201,9 +222,14 @@ function App() {
                     type="submit"
                     onClick={async (e) => {
                       // e.preventDefault();
-                      const res = await fetch(`/api/del/?path=/${selectedItem.name}`)
+                      const res = await fetch(
+                        `/api/del/?path=/${selectedItem.name}`
+                      );
                       // console.log(`/api/del/?path=${pwd() + selectedItem.name}`)
-                      setCwdData(prev => prev.filter(item => item.id !== selectedItem.id))
+                      setCwdData((prev) =>
+                        prev.filter((item) => item.id !== selectedItem.id)
+                      );
+                      console.log("after deleting", cwdData);
                     }}
                     className={`${
                       !selectedItem ? "hidden" : "block"
