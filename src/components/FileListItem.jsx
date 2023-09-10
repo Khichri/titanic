@@ -33,6 +33,17 @@ const FileListItem = ({
       ? "font-semibold font-['Comfortaa'] cursor-pointer text-[1rem] text-[#d79921]"
       : "cursor-pointer text-[#fabd2f]";
 
+  function truncate(n) {
+    var ext = n.substring(n.lastIndexOf(".") + 1 , n.length).toLowerCase();
+    var filename = n.replace('.' + ext,'');
+    
+    if(filename.length <= 10) {
+      return n;
+    }
+    filename = filename.substr(0 , 5) + (n.length > 5 ? '...' + filename.substr(-1) : '');
+    return filename + '.' + ext;
+  };
+
   return (
     <li
       className={`break-all select-none mb-2 font-['Comfortaa'] font-semibold text-[1rem] flex flex-col items-center p-3 hover:bg-[#665c54] rounded-xl ${itemClass} ${
@@ -65,7 +76,7 @@ const FileListItem = ({
           />
         </svg>
       )}
-      {item.name}
+      {truncate(item.name)}
     </li>
   );
 };
